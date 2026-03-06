@@ -287,23 +287,34 @@ tr:last-child td { border-bottom: none; }
 @page { size: A4; margin: 18mm 17mm 18mm 17mm; }
 @media print {
   * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
-  body { font-size: 12.5px; }
+  body { font-size: 12px; }
   .body-wrap { padding: 0; max-width: 100%; }
-  .cover { page-break-after: always; }
-  .toc-page { page-break-before: always; page-break-after: always; }
-  section { page-break-before: always; }
-  .sec-head, h3, h4 { page-break-after: avoid; }
-  table { display: table !important; width: 100% !important; overflow: visible !important; font-size: 11.5px; }
-  thead { display: table-header-group; }
-  tr { page-break-inside: avoid; }
-  td, th { white-space: normal !important; word-break: keep-all; }
-  th:first-child, td:first-child { white-space: nowrap !important; }
+
+  /* 페이지 구분 */
+  .cover { page-break-after: always; break-after: page; }
+  .toc-page { page-break-before: always; page-break-after: always; break-before: page; break-after: page; }
+  section { page-break-before: always; break-before: page; }
+  .sec-head, h3, h4 { page-break-after: avoid; break-after: avoid; }
+
+  /* 요소 분리 방지 */
+  .note, .card, .rm-item, .stat-card, .hypo { page-break-inside: avoid; break-inside: avoid; }
+  tr { page-break-inside: avoid; break-inside: avoid; }
+
+  /* 표 설정 */
   .table-wrap { overflow: visible !important; }
-  .card-grid2, .card-grid3 { grid-template-columns: 1fr 1fr !important; }
+  table { display: table !important; width: 100% !important; overflow: visible !important; font-size: 10.5px; min-width: 0 !important; }
+  thead { display: table-header-group; }
+  th { white-space: normal !important; word-break: keep-all; padding: 7px 8px; font-size: 10.5px; }
+  td { white-space: normal !important; word-break: keep-all; padding: 7px 8px; font-size: 10.5px; }
+  td:first-child { white-space: nowrap !important; }
+
+  /* 그리드 — 뱅크법률집사 기준 */
+  .card-grid2, .card-grid3 { grid-template-columns: 1fr !important; }
   .engine-grid { grid-template-columns: 1fr 32px 1fr !important; }
   .cover-sigline { grid-template-columns: repeat(4, 1fr) !important; }
   .hypo-kpi { grid-template-columns: 1fr 1fr !important; }
   .budget-banner { padding: 14px 20px; }
+  .roadmap { padding-left: 20px; }
 }
 </style>
 </head>
@@ -381,17 +392,18 @@ tr:last-child td { border-bottom: none; }
   <h3>1.1 전체 브랜드 소송 현황 (2026.03 기준)</h3>
   <p>법률신문(2026.2.20) 기준 소송이 제기됐거나 절차가 진행 중인 브랜드는 14곳 이상입니다. 슬로우뉴스(2026.2월) 집계 기준으로는 1심 진행 중 브랜드가 16곳, 소송 준비 중 브랜드가 3곳 이상입니다.</p>
 
+  <p style="font-size:12px;color:var(--muted);margin-bottom:8px">※ 황색 행 = 소송 임박, 녹색 행 = 로펌 미선점 황해 기회 브랜드 / 출처: 법률신문(2.20), 슬로우뉴스, 중앙일보(1.16)</p>
+
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>카테고리</th>
-          <th>브랜드</th>
-          <th>가맹점 수</th>
-          <th>소송 현황</th>
-          <th>원고 로펌</th>
-          <th>피고 로펌 (본사)</th>
-          <th>황해 진입 여부</th>
+          <th style="min-width:48px">분류</th>
+          <th style="min-width:90px">브랜드</th>
+          <th style="min-width:56px">점포 수</th>
+          <th style="min-width:80px">소송 현황</th>
+          <th style="min-width:64px">원고 로펌</th>
+          <th>황해 판단</th>
         </tr>
       </thead>
       <tbody>
@@ -400,9 +412,8 @@ tr:last-child td { border-bottom: none; }
           <td><strong>BHC</strong></td>
           <td>2,400+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>YK</td>
-          <td>김·장 법률사무소</td>
-          <td><strong>경쟁 진입 (확정①)</strong></td>
+          <td>YK (김·장 vs)</td>
+          <td><strong>확정① 경쟁 진입</strong></td>
         </tr>
         <tr>
           <td>치킨</td>
@@ -410,7 +421,6 @@ tr:last-child td { border-bottom: none; }
           <td>1,300+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>YK</td>
-          <td>—</td>
           <td>YK 선점 강고</td>
         </tr>
         <tr>
@@ -419,52 +429,22 @@ tr:last-child td { border-bottom: none; }
           <td>1,600+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>YK</td>
-          <td>법무법인 트리니티</td>
           <td>YK 선점 강고</td>
         </tr>
         <tr>
           <td>치킨</td>
-          <td>굽네치킨</td>
-          <td>800+</td>
+          <td>굽네·푸라닭</td>
+          <td>800/500+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>YK</td>
-          <td>법무법인 화우</td>
           <td>소규모</td>
         </tr>
         <tr>
           <td>치킨</td>
-          <td>푸라닭</td>
-          <td>500+</td>
+          <td>처갓집·지코바·땅땅</td>
+          <td>300–700+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>YK</td>
-          <td>법무법인 태평양</td>
-          <td>소규모</td>
-        </tr>
-        <tr>
-          <td>치킨</td>
-          <td>처갓집양념치킨</td>
-          <td>700+</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>YK</td>
-          <td>—</td>
-          <td>YK 선점</td>
-        </tr>
-        <tr>
-          <td>치킨</td>
-          <td>지코바치킨</td>
-          <td>400+</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>—</td>
-          <td>—</td>
-          <td>소규모</td>
-        </tr>
-        <tr>
-          <td>치킨</td>
-          <td>땅땅치킨</td>
-          <td>300+</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>—</td>
-          <td>—</td>
+          <td>YK / —</td>
           <td>소규모</td>
         </tr>
         <tr>
@@ -472,9 +452,8 @@ tr:last-child td { border-bottom: none; }
           <td><strong>버거킹</strong></td>
           <td>500+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>YK</td>
-          <td>김·장 법률사무소</td>
-          <td><strong>테스트① (고단가)</strong></td>
+          <td>YK (김·장 vs)</td>
+          <td><strong>테스트① 고단가</strong></td>
         </tr>
         <tr>
           <td>버거</td>
@@ -482,7 +461,6 @@ tr:last-child td { border-bottom: none; }
           <td>1,400+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>YK</td>
-          <td>—</td>
           <td>YK 선점</td>
         </tr>
         <tr>
@@ -491,148 +469,91 @@ tr:last-child td { border-bottom: none; }
           <td>200+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>최선</td>
-          <td>법무법인 화우 / 세종</td>
           <td>소규모</td>
         </tr>
         <tr>
           <td>디저트</td>
           <td>배스킨라빈스</td>
           <td>1,600+</td>
-          <td><span class="tag tag-ongoing">1심 진행 (원고 417명)</span></td>
-          <td>YK</td>
-          <td>법무법인 화우</td>
+          <td><span class="tag tag-ongoing">1심 (원고 417명)</span></td>
+          <td>YK (화우 vs)</td>
           <td>YK 선점 강고</td>
         </tr>
         <tr>
           <td>카페</td>
           <td>투썸플레이스</td>
           <td>1,700+</td>
-          <td><span class="tag tag-ongoing">1심 진행 (점주 273명)</span></td>
-          <td>YK</td>
-          <td>법무법인 광장</td>
+          <td><span class="tag tag-ongoing">1심 (점주 273명)</span></td>
+          <td>YK (광장 vs)</td>
           <td>YK 선점 강고</td>
         </tr>
         <tr>
-          <td>카페</td>
-          <td>포토이즘</td>
-          <td>400+</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>—</td>
-          <td>—</td>
-          <td>소규모</td>
-        </tr>
-        <tr>
           <td>한식</td>
-          <td>명륜진사갈비</td>
-          <td>500+</td>
+          <td>명륜진사갈비·요아정</td>
+          <td>500/700+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>최선</td>
-          <td>—</td>
           <td>최선 선점</td>
         </tr>
         <tr>
           <td>한식</td>
-          <td>요아정</td>
-          <td>700+</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>최선</td>
-          <td>—</td>
-          <td>최선 선점</td>
-        </tr>
-        <tr>
-          <td>한식</td>
-          <td>원할머니보쌈족발</td>
-          <td>300+</td>
+          <td>두찜·원할머니</td>
+          <td>400/300+</td>
           <td><span class="tag tag-ongoing">1심 진행</span></td>
           <td>YK</td>
-          <td>법무법인 세종</td>
           <td>소규모</td>
-        </tr>
-        <tr>
-          <td>한식</td>
-          <td>두찜</td>
-          <td>400+</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>YK</td>
-          <td>법무법인 가온</td>
-          <td>소규모</td>
-        </tr>
-        <tr>
-          <td>유통</td>
-          <td>롯데프레시</td>
-          <td>—</td>
-          <td><span class="tag tag-ongoing">1심 진행</span></td>
-          <td>YK</td>
-          <td>법무법인 태평양</td>
-          <td>비관련</td>
         </tr>
         <tr style="background:#fffbf0">
           <td>카페</td>
           <td><strong>메가MGC커피</strong></td>
           <td>4,000+</td>
-          <td><span class="tag tag-ready">3월 중하순 소제기 예정 (1,000명+)</span></td>
+          <td><span class="tag tag-ready">3월 중하순 소제기 (1,000명+)</span></td>
           <td>도아</td>
-          <td>—</td>
-          <td><strong>테스트② (도아 선점, 틈새)</strong></td>
+          <td><strong>테스트② 틈새</strong></td>
         </tr>
         <tr style="background:#fffbf0">
           <td>카페</td>
           <td>더벤티</td>
           <td>1,200+</td>
-          <td><span class="tag tag-ready">3월 중하순 소제기 예정</span></td>
-          <td>도아 (MOU)</td>
-          <td>—</td>
-          <td>도아 MOU — 진입 실익 없음</td>
+          <td><span class="tag tag-ready">3월 중하순 소제기</span></td>
+          <td>도아 MOU</td>
+          <td>진입 실익 없음</td>
         </tr>
         <tr style="background:#fffbf0">
           <td>카페</td>
-          <td>던킨도너츠</td>
-          <td>800+</td>
+          <td>던킨도너츠·할리스</td>
+          <td>800/600+</td>
           <td><span class="tag tag-ready">소송 준비 중</span></td>
-          <td>—</td>
-          <td>—</td>
-          <td>차기 검토</td>
-        </tr>
-        <tr style="background:#fffbf0">
-          <td>카페</td>
-          <td>할리스</td>
-          <td>600+</td>
-          <td><span class="tag tag-ready">소송 준비 중</span></td>
-          <td>—</td>
           <td>—</td>
           <td>차기 검토</td>
         </tr>
         <tr style="background:#f0fff4">
           <td>카페</td>
-          <td><strong style="color:#065f46">이디야커피</strong></td>
+          <td><strong>이디야커피</strong></td>
           <td>3,000+</td>
-          <td><span class="tag tag-open">점주 준비 중 — 대리 로펌 없음</span></td>
-          <td style="color:#065f46"><strong>없음 (황해 기회)</strong></td>
-          <td>—</td>
-          <td><strong>확정② — 황해 독점 선제 진입</strong></td>
+          <td><span class="tag tag-open">점주 준비 · 로펌 없음</span></td>
+          <td style="color:#065f46;font-weight:700">없음 — 황해 기회</td>
+          <td><strong>확정② 독점 진입</strong></td>
         </tr>
         <tr style="background:#f0fff4">
           <td>베이커리</td>
-          <td><strong style="color:#065f46">파리바게뜨</strong></td>
+          <td><strong>파리바게뜨</strong></td>
           <td>3,500+</td>
           <td><span class="tag tag-open">소송 움직임 없음</span></td>
-          <td style="color:#065f46"><strong>없음 (황해 기회)</strong></td>
-          <td>—</td>
-          <td><strong>확정③ — 전체 로펌 미선점</strong></td>
+          <td style="color:#065f46;font-weight:700">없음 — 황해 기회</td>
+          <td><strong>확정③ 전 로펌 미선점</strong></td>
         </tr>
         <tr style="background:#f0fff4">
           <td>편의점</td>
           <td>GS25 / CU</td>
           <td>각 17,000+</td>
-          <td><span class="tag tag-open">소송 움직임 없음</span></td>
-          <td style="color:#065f46"><strong>없음</strong></td>
-          <td>—</td>
-          <td>차기 검토 (법리 확인 후)</td>
+          <td><span class="tag tag-open">움직임 없음</span></td>
+          <td style="color:#065f46;font-weight:700">없음</td>
+          <td>차기 법리 검토 후</td>
         </tr>
       </tbody>
     </table>
   </div>
-  <p class="footnote">출처: 법률신문(2026.2.20), 슬로우뉴스(2026.2월), 헤럴드경제(2026.1.17), 중앙일보(2026.1.16). 황색 = 소송 준비/임박, 녹색 = 로펌 미선점 황해 기회 브랜드.</p>
 
   <h3>1.2 YK 기진행 전략 장단점 분석</h3>
 
